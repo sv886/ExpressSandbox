@@ -61,6 +61,16 @@ app.get("/fallinlovewith/:thing", function(req, res){
   res.render("love.ejs", {thingVar: thing});
 });
 
+app.get("/posts", function(req, res){
+  var posts = [
+    {title: "Post 1", author: "Charlie"},
+    {title: "Post 2", author: "Chuck"},
+    {title: "Post 3", author: "Chaz"}
+  ]
+
+  res.render("posts.ejs", {posts: posts})
+});
+
 // GET * is a catch-all for any URL aside from whatever else we've defined.
 // Good for error page. ORDER MATTERS, catch-all should live below
 // defined routes.
