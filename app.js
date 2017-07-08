@@ -5,14 +5,15 @@ var app = express();
 
 // app.whateverexpresscomeswith
 
+
 // ########################################################
-// Routes
+// Routes (Basics Section)
 // ########################################################
 
-// "/" => "Hai there!"
-app.get("/", function(req, res){
-  res.send("Hai there!");
-});
+// // "/" => "Hai there!"
+// app.get("/", function(req, res){
+//   res.send("Hai there!");
+// });
 
 // "/adieu" => "adios cabrón"
 app.get("/adieu", function(req, res){
@@ -40,6 +41,24 @@ app.get("/r/:subredditName/comments/:id/:title", function(req, res){
   // { subredditName: 'aww', id: '34', title: 'hippo_party' }
 
   res.send("edgy " + req.params.title + " comment section");
+});
+
+
+
+// ########################################################
+// Routes (Template Section)
+// ########################################################
+// NOTE: npm install ejs to utilize ejs templates
+
+// "/" => render embedded javascript template with
+// the response #render method.
+app.get("/", function(req, res){
+  res.render("home.ejs");
+});
+
+app.get("/fallinlovewith/:thing", function(req, res){
+  var thing = req.params.thing;
+  res.render("love.ejs", {thingVar: thing});
 });
 
 // GET * is a catch-all for any URL aside from whatever else we've defined.
