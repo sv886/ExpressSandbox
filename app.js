@@ -7,10 +7,13 @@ var app = express();
 
 
 // ########################################################
-// Serve Assets
+// Assets
 // ########################################################
 // tell express to serve contents of public directory
 app.use(express.static("public"));
+// tell express to expect ejs templates
+app.set("view engine", "ejs");
+
 
 
 // ########################################################
@@ -60,12 +63,12 @@ app.get("/r/:subredditName/comments/:id/:title", function(req, res){
 // "/" => render embedded javascript template with
 // the response #render method.
 app.get("/", function(req, res){
-  res.render("home.ejs");
+  res.render("home");
 });
 
 app.get("/fallinlovewith/:thing", function(req, res){
   var thing = req.params.thing;
-  res.render("love.ejs", {thingVar: thing});
+  res.render("love", {thingVar: thing});
 });
 
 app.get("/posts", function(req, res){
@@ -75,7 +78,7 @@ app.get("/posts", function(req, res){
     {title: "Post 3", author: "Chaz"}
   ]
 
-  res.render("posts.ejs", {posts: posts})
+  res.render("posts", {posts: posts})
 });
 
 // GET * is a catch-all for any URL aside from whatever else we've defined.
