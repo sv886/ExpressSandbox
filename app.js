@@ -1,15 +1,23 @@
+// ########################################################
+// Setup
+// ########################################################
+
 // import express module
 var express = require("express");
 // execute and save to variable 'app'
 var app = express();
+// app.whateverexpresscomeswith
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.whateverexpresscomeswith
+var request = require('request');
+// simple way to make http calls
 
 // temporarily scope friends outside of route function for post lesson
 var friends = ["ronny", "bobby", "ricky", "mike"];
+
+
 
 // ########################################################
 // Assets
@@ -96,6 +104,38 @@ app.post("/addFriend", function(req, res){
   friends.push(newFriend);
   res.redirect("/friends");
 });
+
+
+
+// ########################################################
+// Routes (API Section)
+// ########################################################
+// Ref omdbapi.com docs
+// API recently went private, append requests with: &apikey=thewdb
+
+// Take search input and inject into api request in results route
+app.get("/search", function(req, res){
+  res.render("search");
+})
+
+// Regular route, just making API request inside of it (using search term above)
+// and rendering request results in ejs partial
+app.get("/results", function(req, res){
+  var searchTerm = req.query.search;
+  var apiUrl = 'http://www.omdbapi.com/?s=' + searchTerm + '&apikey=thewdb';
+  request(apiUrl, function(error, response, body) {
+    // check if api is accessible
+    if(!error && response.statusCode == 200) {
+      // body returns a data string, convert to JSON data
+      // to access specifics
+      var data = JSON.parse(body);
+      // render first search result
+      res.render("results", {data: data});
+    }
+  });
+});
+
+
 
 // GET * is a catch-all for any URL aside from whatever else we've defined.
 // Good for error page. ORDER MATTERS, catch-all should live below
