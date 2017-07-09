@@ -103,6 +103,29 @@ app.post("/addFriend", function(req, res){
   res.redirect("/friends");
 });
 
+
+
+// ########################################################
+// Routes (API Section)
+// ########################################################
+// Ref omdbapi.com docs
+// API recently went private, append requests with: &apikey=thewdb
+
+app.get("/results", function(req, res){
+  request('http://www.omdbapi.com/?s=the+room&apikey=thewdb', function(error, response, body) {
+    // check if api is accessible
+    if(!error && response.statusCode == 200) {
+      // body returns a data string, convert to JSON data
+      // to access specifics
+      var results = JSON.parse(body);
+      // render first search result
+      res.send(results["Search"][0]);
+    }
+  });
+});
+
+
+
 // GET * is a catch-all for any URL aside from whatever else we've defined.
 // Good for error page. ORDER MATTERS, catch-all should live below
 // defined routes.
