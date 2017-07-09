@@ -3,8 +3,13 @@ var express = require("express");
 // execute and save to variable 'app'
 var app = express();
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 // app.whateverexpresscomeswith
 
+// temporarily scope friends outside of route function for post lesson
+var friends = ["ronny", "bobby", "ricky", "mike"];
 
 // ########################################################
 // Assets
@@ -78,7 +83,18 @@ app.get("/posts", function(req, res){
     {title: "Post 3", author: "Chaz"}
   ]
 
-  res.render("posts", {posts: posts})
+  res.render("posts", {posts: posts});
+});
+
+app.get("/friends", function(req, res){
+  res.render("friends", {friends: friends});
+});
+
+// post route for creating new fraindz
+app.post("/addFriend", function(req, res){
+  newFriend = req.body.newfriend
+  friends.push(newFriend);
+  res.redirect("/friends");
 });
 
 // GET * is a catch-all for any URL aside from whatever else we've defined.
