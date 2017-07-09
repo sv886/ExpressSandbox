@@ -113,8 +113,17 @@ app.post("/addFriend", function(req, res){
 // Ref omdbapi.com docs
 // API recently went private, append requests with: &apikey=thewdb
 
+// Take search input and inject into api request in results route
+app.get("/search", function(req, res){
+  res.render("search");
+})
+
+// Regular route, just making API request inside of it (using search term above)
+// and rendering request results in ejs partial
 app.get("/results", function(req, res){
-  request('http://www.omdbapi.com/?s=the+big&apikey=thewdb', function(error, response, body) {
+  var searchTerm = req.query.search;
+  var apiUrl = 'http://www.omdbapi.com/?s=' + searchTerm + '&apikey=thewdb';
+  request(apiUrl, function(error, response, body) {
     // check if api is accessible
     if(!error && response.statusCode == 200) {
       // body returns a data string, convert to JSON data
