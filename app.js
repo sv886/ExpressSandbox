@@ -17,6 +17,8 @@ var request = require('request');
 // temporarily scope friends outside of route function for post lesson
 var friends = ["ronny", "bobby", "ricky", "mike"];
 
+
+
 // ########################################################
 // Assets
 // ########################################################
@@ -112,14 +114,14 @@ app.post("/addFriend", function(req, res){
 // API recently went private, append requests with: &apikey=thewdb
 
 app.get("/results", function(req, res){
-  request('http://www.omdbapi.com/?s=the+room&apikey=thewdb', function(error, response, body) {
+  request('http://www.omdbapi.com/?s=the+big&apikey=thewdb', function(error, response, body) {
     // check if api is accessible
     if(!error && response.statusCode == 200) {
       // body returns a data string, convert to JSON data
       // to access specifics
-      var results = JSON.parse(body);
+      var data = JSON.parse(body);
       // render first search result
-      res.send(results["Search"][0]);
+      res.render("results", {data: data});
     }
   });
 });
