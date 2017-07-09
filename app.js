@@ -1,12 +1,18 @@
+// ########################################################
+// Setup
+// ########################################################
+
 // import express module
 var express = require("express");
 // execute and save to variable 'app'
 var app = express();
+// app.whateverexpresscomeswith
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.whateverexpresscomeswith
+var request = require('request');
+// simple way to make http calls
 
 // temporarily scope friends outside of route function for post lesson
 var friends = ["ronny", "bobby", "ricky", "mike"];
